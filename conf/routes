@@ -15,7 +15,7 @@ POST    /cart-line-item/add         controllers.CartLineItems.create()
 POST    /cart-line-item/update      controllers.CartLineItems.update()
 
 
-# Images for products and categories (stored in database)
+# Images for products and categories
 GET     /images/$id<[0-9]+>/:name   controllers.Images.show(id: Long, name: String)
 
 # Admin section
