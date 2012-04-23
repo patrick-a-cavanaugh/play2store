@@ -1,0 +1,22 @@
+@(products: List[Product])
+
+@main("Play 2 Store") {
+
+    <hgroup>
+        <h1>Play 2 Store</h1>
+        <h2>A demonstration project – building an e-commerce site using Play! 2.0, Twitter Bootstrap, and Stripe</h2>
+    </hgroup>
+
+    <p>Welcome to the store! Here’s a list of all the products currently available:</p>
+
+    <ul>
+        @for(product <- products) {
+            <li>
+                <h2>@product.name</h2>
+
+                <p>@product.description</p>
+            </li>
+        }
+    </ul>
+    
+}

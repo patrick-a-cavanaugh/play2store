@@ -1,0 +1,40 @@
+@(products: List[Product])
+
+@views.html.admin.main("Products list") {
+
+    <p>Welcome, administrator!</p>
+
+    <p>
+        <a href="@controllers.admin.routes.Products.create">Add a new product</a>
+    </p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Price (USD)</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+        @for(product <- products) {
+            <tr>
+                <td>
+                    @if(product.image != null) {
+                        <img src="@routes.Images.show(product.image.id, product.image.name)"
+                             alt="" width="200" />
+                    } else {
+                        No image available
+                    }
+                </td>
+                <td>@product.name</td>
+                <td>@product.category.name</td>
+                <td>$@product.price.setScale(2)</td>
+                <td>@product.description</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+}

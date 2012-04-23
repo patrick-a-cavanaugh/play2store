@@ -1,0 +1,51 @@
+@(title: String)(content: Html)
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>@title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/lib/bootstrap/bootstrap.min.css")" />
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/lib/bootstrap/responsive.min.css")" />
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script>
+        if (typeof jQuery == 'undefined') {
+            document.write(unescape("%3Cscript src='@routes.Assets.at("javascripts/jquery-1.7.2.js")' " +
+                                    "type='text/javascript'%3E%3C/script%3E"));
+        }
+        </script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="navbar">
+                <div class="navbar-inner">
+                    <div class="container">
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        </a>
+                        <h2 class="brand"><a href="@routes.Application.index">play2store</a></h2>
+                        <nav class="nav-collapse">
+                            <ul class="nav">
+                                @for(category <- actions.TemplateVars.categories()) {
+                                    <li><a href="@routes.Categories.showProducts(category.id)">@category.name</a></li>
+                                }
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <div>
+                @content
+            </div>
+
+            <footer>
+                © 2012 Patrick Cavanaugh.
+            </footer>
+        </div>
+    </body>
+</html>

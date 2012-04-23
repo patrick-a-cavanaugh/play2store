@@ -1,0 +1,44 @@
+@(category: Category, products: List[Product])
+
+@main(category.name) {
+
+    <h1>@category.name</h1>
+    <h2>@category.description</h2>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        @for(product <- products) {
+            <tr>
+                <td>
+                @if(product.image != null && product.image.id != null) {
+                    <img src="@routes.Images.show(product.image.id, product.image.name)" alt="" width="200" />
+                }
+                </td>
+                <td>
+                    <h2>@product.name</h2>
+                </td>
+                <td>
+                    <p>@product.description</p>
+                </td>
+
+                <td>
+                    <form class="form-inline" method="post" action="@routes.CartLineItems.create">
+                        <input type="hidden" name="product_id" value="@product.id" />
+                        <input type="hidden" name="quantity" value="1" />
+                        <button type="submit" class="btn">Add to cart</button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+}

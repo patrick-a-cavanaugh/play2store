@@ -1,0 +1,35 @@
+@(cart: Cart)
+
+@main("Shopping Cart") {
+
+    <h1>Shopping Cart</h1>
+    <h2>@cart.lineItems.size items in the cart</h2>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        @for(lineItem <- cart.lineItems) {
+            <tr>
+                <td>@lineItem.product.name</td>
+                <td>@lineItem.quantity</td>
+                <td>
+                    <form class="form-inline" method="post"
+                        action="@routes.CartLineItems.update">
+                        <input type="hidden" name="id" value="@lineItem.id" />
+                        <input type="hidden" name="quantity" value="0" />
+                        <button type="submit" class="btn">Remove from cart</button>
+                    </form>
+                </td>
+
+            </tr>
+        }
+        </tbody>
+    </table>
+
+}

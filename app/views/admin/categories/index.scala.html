@@ -1,0 +1,20 @@
+@(products: List[Category])
+
+@views.html.admin.main("Categories list") {
+
+    <p>Welcome, administrator!</p>
+
+    <p>
+        <a href="@controllers.admin.routes.Categories.create">Add a new category</a>
+    </p>
+    <ul>
+        @for(product <- products) {
+            <li>
+                <h2>@product.name</h2>
+
+                <p>@product.description</p>
+            </li>
+        }
+    </ul>
+
+}

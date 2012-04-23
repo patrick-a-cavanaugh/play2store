@@ -1,0 +1,24 @@
+@(categoryForm: Form[Category])
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@views.html.admin.main("Add a new category") {
+
+    <p>Here is where you can add a new category to the database:</p>
+
+    @form(controllers.admin.routes.Categories.save()) {
+        <fieldset>
+
+            @inputText(categoryForm("name"), '_label -> "Name")
+            @inputText(categoryForm("description"), '_label -> "Description")
+        </fieldset>
+
+        <div class="actions">
+            <input type="submit" value="Add this category" class="btn primary"> or
+            <a href="@controllers.admin.routes.Categories.index()" class="btn">Cancel</a>
+        </div>
+
+    }
+
+}

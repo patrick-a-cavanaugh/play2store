@@ -1,0 +1,31 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                           controllers.Application.index()
+GET     /login                      controllers.Application.login()
+
+# Category list pages
+GET     /products/by/category/$id<[0-9]+>     controllers.Categories.showProducts(id: Long)
+
+# Cart
+GET     /cart                       controllers.Carts.show()
+POST    /cart-line-item/add         controllers.CartLineItems.create()
+POST    /cart-line-item/update      controllers.CartLineItems.update()
+
+
+# Images for products and categories (stored in database)
+GET     /images/$id<[0-9]+>/:name   controllers.Images.show(id: Long, name: String)
+
+# Admin section
+GET     /admin/categories             controllers.admin.Categories.index()
+GET     /admin/categories/create      controllers.admin.Categories.create()
+POST    /admin/categories/create      controllers.admin.Categories.save()
+
+GET     /admin/products             controllers.admin.Products.index()
+GET     /admin/products/create      controllers.admin.Products.create()
+POST    /admin/products/create      controllers.admin.Products.save()
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.at(path="/public", file)
