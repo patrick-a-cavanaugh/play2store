@@ -1,0 +1,40 @@
+@(loginForm: Form[Application.Login])
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@main("Login to the store") {
+
+    <hgroup>
+        <h1>Play 2 Store</h1>
+        <h2>Login here</h2>
+    </hgroup>
+
+    @form(routes.Application.authenticate) {
+
+        <h1>Sign in</h1>
+
+        @if(loginForm.hasGlobalErrors) {
+            <p class="error">
+                @loginForm.globalError.message
+            </p>
+        }
+
+        @if(flash.contains("success")) {
+            <p class="success">
+                @flash.get("success")
+            </p>
+        }
+
+        <fieldset>
+            @inputText(loginForm("email"), '_label -> "Email")
+            @inputPassword(loginForm("password"), '_label -> "Password")
+        </fieldset>
+
+        <div class="actions">
+            <button type="submit">Login</button>
+        </div>
+
+    }
+
+}

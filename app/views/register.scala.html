@@ -1,0 +1,37 @@
+@(registerForm: Form[Application.Register])
+
+@import helper._
+
+@import helper.twitterBootstrap._
+
+@main("Register a new user account") {
+
+    @form(routes.Application.createUser) {
+
+        <h1>Register your account</h1>
+
+        @if(registerForm.hasGlobalErrors) {
+            <p class="error">
+                @registerForm.globalError.message
+            </p>
+        }
+
+        @if(flash.contains("success")) {
+            <p class="success">
+                @flash.get("success")
+            </p>
+        }
+
+        <fieldset>
+            @inputText(registerForm("email"), '_label -> "Email")
+            @inputPassword(registerForm("password"), '_label -> "Password")
+            @inputPassword(registerForm("password_confirmation"), '_label -> "Password Confirmation")
+        </fieldset>
+
+        <div class="actions">
+            <button type="submit">Login</button>
+        </div>
+
+    }
+
+}

@@ -2,6 +2,7 @@ package models;
 
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
+import models.User;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;

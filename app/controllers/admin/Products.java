@@ -1,5 +1,7 @@
 package controllers.admin;
 
+import actions.TemplateVars;
+import be.objectify.deadbolt.actions.Restrict;
 import models.Image;
 import models.Product;
 import play.mvc.*;
@@ -12,6 +14,8 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.Arrays;
 
+@Restrict("admin")
+@With(TemplateVars.class)
 public class Products extends Controller {
     public static Result index() {
         return ok(index.render(Product.find.join("category", "*").findList()));

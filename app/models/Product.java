@@ -4,7 +4,6 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.*;
 
-import com.avaje.ebean.validation.NotNull;
 import play.data.validation.Constraints;
 
 @Entity

@@ -19,6 +19,22 @@ public class Cart extends Model {
      */
     public static Model.Finder<Long, Cart> find = new Model.Finder<Long, Cart>(Long.class, Cart.class);
 
+    /**
+     * If the user doesn't have a cart already, create one and then return it. Otherwise, return the existing cart.
+     * @param theUser user to find the cart for
+     * @return a cart belonging to the user
+     */
+    public static Cart getCartForUser(User theUser) {
+        Cart theCart = findByUserId(theUser.id);
+        if (null == theCart) {
+            theCart = new Cart();
+            theCart.user = theUser;
+            Cart.create(theCart);
+            theCart.refresh();
+        }
+        return theCart;
+    }
+
     public static Cart findByUserId(Long id) {
         return find.fetch("lineItems")
                 .where()

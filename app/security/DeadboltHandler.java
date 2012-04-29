@@ -27,7 +27,7 @@ import views.html.accessFailed;
 /**
  * @author Steve Chaloner (steve@objectify.be)
  */
-public class MyDeadboltHandler extends AbstractDeadboltHandler
+public class DeadboltHandler extends AbstractDeadboltHandler
 {
     public Result beforeRoleCheck(Http.Context context)
     {
@@ -38,13 +38,12 @@ public class MyDeadboltHandler extends AbstractDeadboltHandler
 
     public RoleHolder getRoleHolder(Http.Context context)
     {
-        // in a real application, the user name would probably be in the session following a login process
-        return User.findByEmail(context.request().username());
+        return User.findById(context.session().get("user_id"));
     }
 
     public DynamicResourceHandler getDynamicResourceHandler(Http.Context context)
     {
-        return new MyDynamicResourceHandler();
+        return new StoreDynamicResourceHandler();
     }
 
     @Override

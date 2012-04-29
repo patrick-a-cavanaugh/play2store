@@ -5,7 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
-import com.avaje.ebean.validation.NotNull;
 import play.data.validation.Constraints;
 
 import java.util.LinkedHashMap;

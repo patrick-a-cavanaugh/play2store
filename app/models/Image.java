@@ -1,12 +1,10 @@
 package models;
 
-import com.avaje.ebean.validation.NotNull;
 import play.data.validation.Constraints;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
-import javax.validation.Constraint;
 import java.util.List;
 
 @Entity

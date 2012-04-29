@@ -1,12 +1,9 @@
 package actions;
 
-import com.avaje.ebean.FetchConfig;
 import models.Cart;
+
 import models.User;
-
 import play.mvc.*;
-
-import static play.mvc.Controller.session;
 
 /**
  * Composable action that ensures there is a shopping cart for the current session.
@@ -14,6 +11,7 @@ import static play.mvc.Controller.session;
  * of the cart is stored in the session.
  */
 public class HasShoppingCart extends Action.Simple {
+
     @Override
     public Result call(Http.Context ctx) throws Throwable {
         Cart theCart;
@@ -21,7 +19,9 @@ public class HasShoppingCart extends Action.Simple {
         String cart_id = ctx.session().get("cart_id");
 
         if (user_id != null) {
-            theCart = Cart.findByUserId(Long.valueOf(user_id));
+            User currentUser = User.findById(user_id);
+            //theCart = Cart.getCartForUser(currentUser);
+            theCart = null;
         } else if (cart_id != null) {
             theCart = Cart.find.setId(Long.valueOf(cart_id))
                     .fetch("lineItems")

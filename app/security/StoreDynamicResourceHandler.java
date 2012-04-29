@@ -30,7 +30,7 @@ import java.util.Map;
 /**
  * @author Steve Chaloner (steve@objectify.be)
  */
-public class MyDynamicResourceHandler implements DynamicResourceHandler
+public class StoreDynamicResourceHandler implements DynamicResourceHandler
 {
     private static final Map<String, DynamicResourceHandler> HANDLERS = new HashMap<String, DynamicResourceHandler>();
 

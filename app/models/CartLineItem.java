@@ -1,6 +1,5 @@
 package models;
 
-import com.avaje.ebean.validation.NotNull;
 import play.data.validation.Constraints;
 
 import javax.persistence.Column;
