@@ -62,6 +62,7 @@ public class Products extends Controller {
         } else {
             Product product = productForm.get();
             if (file != null) {
+                // TODO move this out above the if ( hasErrors ) to allow the reject to work
                 product.image = new Image();
                 product.image.name = fileName;
                 product.image.mimeType = contentType;

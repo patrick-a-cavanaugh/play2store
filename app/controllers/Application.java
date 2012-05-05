@@ -48,7 +48,7 @@ public class Application extends Controller {
     }
 
     public static Result index() {
-        return ok(index.render(Product.all()));
+        return ok(index.render(Product.allByCategories()));
     }
 
     /**

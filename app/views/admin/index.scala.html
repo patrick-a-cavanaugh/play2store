@@ -1,0 +1,8 @@
+@()
+
+@views.html.admin.main("Administration") {
+    <ul>
+        <li><a href="@controllers.admin.routes.Categories.index">Categories management</a></li>
+        <li><a href="@controllers.admin.routes.Products.index">Products management</a></li>
+    </ul>
+}

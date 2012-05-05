@@ -1,4 +1,4 @@
-@(products: List[Product])
+@(productsByCategory: Map[Category, List[Product]])
 
 @main("Play 2 Store") {
 
@@ -9,12 +9,22 @@
 
     <p>Welcome to the store! Here’s a list of all the products currently available:</p>
 
-    <ul>
-        @for(product <- products) {
-            <li>
-                <h2>@product.name</h2>
+    <ul class="categories-columns">
+        @for(categoryWithProducts <- productsByCategory.entrySet) {
+            <li class="category-column">
+                <h2>@categoryWithProducts.getKey().name</h2>
 
-                <p>@product.description</p>
+                <ul class="products-entries">
+                @* There will never be a category without products provided. *@
+                @for(product <- categoryWithProducts.getValue()) {
+                    <li class="product-entry">
+                        <h3>@product.name</h3>
+
+                        <p>@product.description</p>
+                    </li>
+
+                }
+                </ul>
             </li>
         }
     </ul>

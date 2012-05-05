@@ -10,6 +10,8 @@
 
         <h1>Register your account</h1>
 
+        <p>No confirmation email functionality has been implemented yet, so your account will become active immediately.</p>
+
         @if(registerForm.hasGlobalErrors) {
             <p class="error">
                 @registerForm.globalError.message
@@ -29,7 +31,7 @@
         </fieldset>
 
         <div class="actions">
-            <button type="submit">Login</button>
+            <button type="submit">Register</button>
         </div>
 
     }

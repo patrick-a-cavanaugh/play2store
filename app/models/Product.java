@@ -64,4 +64,19 @@ public class Product extends Model {
         }
         return null;
     }
+
+    public static Map<Category, List<Product>> allByCategories() {
+        List<Product> allProducts = find.fetch("category", "id, name").findList();
+        Map<Category, List<Product>> map = new HashMap<Category, List<Product>>();
+        for (Product p : allProducts) {
+            if (map.containsKey(p.category)) {
+                map.get(p.category).add(p);
+            } else {
+                List<Product> productList = new LinkedList<Product>();
+                productList.add(p);
+                map.put(p.category, productList);
+            }
+        }
+        return map;
+    }
 }

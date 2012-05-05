@@ -5,6 +5,7 @@ import be.objectify.deadbolt.actions.Restrict;
 import com.avaje.ebean.InvalidValue;
 import com.avaje.ebean.ValidationException;
 import models.Category;
+import play.api.templates.Html;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -14,6 +15,7 @@ import views.html.admin.categories.*;
 @Restrict("admin")
 @With(TemplateVars.class)
 public class Categories extends Controller {
+
     public static Result index() {
         return ok(index.render(Category.all()));
     }

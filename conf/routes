@@ -23,9 +23,11 @@ POST    /cart-line-item/update      controllers.CartLineItems.update()
 GET     /images/$id<[0-9]+>/:name   controllers.Images.show(id: Long, name: String)
 
 # Admin section
-GET     /admin/categories             controllers.admin.Categories.index()
-GET     /admin/categories/create      controllers.admin.Categories.create()
-POST    /admin/categories/create      controllers.admin.Categories.save()
+GET     /admin                      controllers.admin.Admin.index()
+
+GET     /admin/categories           controllers.admin.Categories.index()
+GET     /admin/categories/create    controllers.admin.Categories.create()
+POST    /admin/categories/create    controllers.admin.Categories.save()
 
 GET     /admin/products             controllers.admin.Products.index()
 GET     /admin/products/create      controllers.admin.Products.create()
