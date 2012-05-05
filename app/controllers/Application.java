@@ -1,7 +1,10 @@
 package controllers;
 
+import actions.HasShoppingCart;
 import actions.TemplateVars;
 import com.avaje.ebean.ValidationException;
+import models.Cart;
+import models.CartLineItem;
 import models.Product;
 import models.User;
 import play.*;
@@ -13,6 +16,8 @@ import views.html.*;
 
 import javax.persistence.PersistenceException;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 @With(TemplateVars.class)
 public class Application extends Controller {
@@ -69,7 +74,43 @@ public class Application extends Controller {
             return badRequest(login.render(loginForm));
         } else {
             User authenticatedUser = User.findByEmail(loginForm.get().email);
+
+            // Find the shopping cart from the anonymous browsing session so we can attach it to the new user's account.
+            // Must be before we add the user id to the session, or it will always find a blank cart for the user.
+            Cart unauthenticatedCart = HasShoppingCart.findOrCreateCartForSession(session());
+            Cart usersCart = Cart.findByUserId(authenticatedUser.id);
+
             session("user_id", authenticatedUser.id.toString());
+
+            // Now attach the cart to the user (if no cart exists, a blank cart is attached).
+            // If the user has a cart too, then combine the contents of the two carts.
+            if (usersCart == null) {
+                unauthenticatedCart.user = authenticatedUser;
+                unauthenticatedCart.save();
+            } else {
+                List<CartLineItem> nonMatchingLineItems = new LinkedList<CartLineItem>();
+                // Iterate over the user's cart, combining line items when both carts have one for the same product.
+                for (CartLineItem sessionItem : unauthenticatedCart.lineItems) {
+                    boolean matchFound = false;
+                    for (CartLineItem userItem : usersCart.lineItems) {
+                        if (userItem.product.equals(sessionItem.product)) {
+                            userItem.quantity += sessionItem.quantity;
+                            matchFound = true;
+                        }
+                    }
+                    if (!matchFound) {
+                        nonMatchingLineItems.add(sessionItem);
+                    }
+                }
+                session("cart_id", null);
+                // Now add all the non-matching line items to the user's cart too.
+                for (CartLineItem nonMatchingItem : nonMatchingLineItems) {
+                    nonMatchingItem.cart = usersCart;
+                    usersCart.lineItems.add(nonMatchingItem);
+                }
+                usersCart.save();
+            }
+
             return redirect(
                     routes.Application.index()
             );
@@ -105,9 +146,17 @@ public class Application extends Controller {
 
             User.create(newUser);
 
+            // Find the shopping cart from the anonymous browsing session so we can attach it to the new user's account.
+            // Must be before we add the user id to the session, or it will always find a blank cart for the user.
+            Cart usersCart = HasShoppingCart.findOrCreateCartForSession(session());
+
             // Create the session
             newUser.refresh();
             session("user_id", newUser.id.toString());
+
+            // Now attach the cart to the new user (if no cart exists, a blank cart is attached).
+            usersCart.user = newUser;
+            usersCart.save();
 
             return redirect(routes.Application.index());
         }

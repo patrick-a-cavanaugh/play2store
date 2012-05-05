@@ -12,16 +12,23 @@ import play.mvc.*;
  */
 public class HasShoppingCart extends Action.Simple {
 
-    @Override
-    public Result call(Http.Context ctx) throws Throwable {
+    /**
+     * Find the current shopping cart in the session. If one doesn't exist, it is created and added to the session.
+     *
+     * This method is a public static method so that it can be used from places that are not using HasShoppingCart
+     * directly.
+     *
+     * @param session the session to fetch the user and cart information from
+     * @return a shopping cart for the current logged in or anonymous user.
+     */
+    public static Cart findOrCreateCartForSession(Http.Session session) {
         Cart theCart;
-        String user_id = ctx.session().get("user_id");
-        String cart_id = ctx.session().get("cart_id");
+        String user_id = session.get("user_id");
+        String cart_id = session.get("cart_id");
 
         if (user_id != null) {
             User currentUser = User.findById(user_id);
-            //theCart = Cart.getCartForUser(currentUser);
-            theCart = null;
+            theCart = Cart.getCartForUser(currentUser);
         } else if (cart_id != null) {
             theCart = Cart.find.setId(Long.valueOf(cart_id))
                     .fetch("lineItems")
@@ -30,9 +37,18 @@ public class HasShoppingCart extends Action.Simple {
         } else {
             theCart = new Cart();
             Cart.create(theCart);
-            ctx.session().put("cart_id", theCart.id.toString());
+            theCart = Cart.find.setId(theCart.id)
+                                .fetch("lineItems")
+                                .fetch("lineItems.product")
+                                .findUnique();
+            session.put("cart_id", theCart.id.toString());
         }
-        ctx.args.put("cart", theCart);
+        return theCart;
+    }
+
+    @Override
+    public Result call(Http.Context ctx) throws Throwable {
+        ctx.args.put("cart", findOrCreateCartForSession(ctx.session()));
 
         return delegate.call(ctx);
     }

@@ -1,6 +1,7 @@
 package models;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -11,8 +12,16 @@ public class Cart extends Model {
 
     public String sessionId;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     public List<CartLineItem> lineItems;
+
+    public BigDecimal getTotalPrice() {
+        BigDecimal totalPrice = new BigDecimal(0);
+        for (CartLineItem lineItem: lineItems) {
+            totalPrice = totalPrice.add(lineItem.product.price.multiply(BigDecimal.valueOf(lineItem.quantity)));
+        }
+        return totalPrice;
+    }
 
     /**
      * Generic query helper for entity Product with id Long
@@ -32,7 +41,11 @@ public class Cart extends Model {
             Cart.create(theCart);
             theCart.refresh();
         }
-        return theCart;
+        // This is inefficient…
+        return Cart.find.setId(theCart.id)
+                            .fetch("lineItems")
+                            .fetch("lineItems.product")
+                            .findUnique();
     }
 
     public static Cart findByUserId(Long id) {

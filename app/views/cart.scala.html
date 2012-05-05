@@ -10,14 +10,16 @@
             <tr>
                 <th>Item</th>
                 <th>Quantity</th>
+                <th>Cost/ea.</th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
         @for(lineItem <- cart.lineItems) {
-            <tr>
+            <tr class="lineItem">
                 <td>@lineItem.product.name</td>
                 <td>@lineItem.quantity</td>
+                <td>$@lineItem.product.price.setScale(2) (USD)</td>
                 <td>
                     <form class="form-inline" method="post"
                         action="@routes.CartLineItems.update">
@@ -29,6 +31,14 @@
 
             </tr>
         }
+        <tr class="totals">
+            <td colspan="3" class="total-label">
+                <strong>Total:</strong>
+            </td>
+            <td class="total-price">
+                $@cart.getTotalPrice().setScale(2) (USD)
+            </td>
+        </tr>
         </tbody>
     </table>
 
