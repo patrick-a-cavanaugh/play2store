@@ -31,11 +31,15 @@ GET     /admin                      controllers.admin.Admin.index()
 
 GET     /admin/categories           controllers.admin.Categories.index()
 GET     /admin/categories/create    controllers.admin.Categories.create()
+GET     /admin/categories/$id<[0-9]+>/edit    controllers.admin.Categories.edit(id: Long)
 POST    /admin/categories/create    controllers.admin.Categories.save()
+POST    /admin/categories/$id<[0-9]+>/update controllers.admin.Categories.update(id: Long)
 
 GET     /admin/products             controllers.admin.Products.index()
 GET     /admin/products/create      controllers.admin.Products.create()
+GET     /admin/products/$id<[0-9]+>/edit    controllers.admin.Products.edit(id: Long)
 POST    /admin/products/create      controllers.admin.Products.save()
+POST    /admin/products/$id<[0-9]+>/update controllers.admin.Products.update(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

@@ -1,4 +1,6 @@
-This is your new Play 2.0 application
-=====================================
+Run the project locally using the runwithenv.sh script like this:
 
-This file will be packaged with your application, when using `play dist`.
+"./runwithenv.sh" --> "play"
+"./runwithenv.sh" --> "play debug"
+
+This ensures the correct environment variables are loaded from conf/secret.sh.

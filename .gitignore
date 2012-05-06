@@ -5,4 +5,4 @@ target
 tmp
 .history
 dist
-conf/secret.conf
+conf/secret.sh

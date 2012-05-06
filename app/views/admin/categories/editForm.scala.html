@@ -1,0 +1,22 @@
+@(categoryForm: Form[Category], category: Category)
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@views.html.admin.main("Edit " + category.name) {
+
+    @form(controllers.admin.routes.Categories.update(category.id)) {
+        <fieldset>
+
+            @inputText(categoryForm("name"), '_label -> "Name")
+            @inputText(categoryForm("description"), '_label -> "Description")
+        </fieldset>
+
+        <div class="actions">
+            <input type="submit" value="Save" class="btn primary"> or
+            <a href="@controllers.admin.routes.Categories.index()" class="btn">Cancel</a>
+        </div>
+
+    }
+
+}

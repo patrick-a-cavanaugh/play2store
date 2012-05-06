@@ -1,4 +1,4 @@
-@(products: List[Category])
+@(categories: List[Category])
 
 @views.html.admin.main("Categories list") {
 
@@ -8,11 +8,11 @@
         <a href="@controllers.admin.routes.Categories.create">Add a new category</a>
     </p>
     <ul>
-        @for(product <- products) {
+        @for(category <- categories) {
             <li>
-                <h2>@product.name</h2>
+                <h2><a href="@controllers.admin.routes.Categories.edit(category.id)">@category.name</a></h2>
 
-                <p>@product.description</p>
+                <p>@category.description</p>
             </li>
         }
     </ul>

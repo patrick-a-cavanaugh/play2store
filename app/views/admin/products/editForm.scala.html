@@ -1,0 +1,32 @@
+@(productForm: Form[Product], product: Product)
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@views.html.admin.main("Edit: " + product.name) {
+
+    @form(controllers.admin.routes.Products.update(product.id), 'enctype -> "multipart/form-data") {
+        <fieldset>
+
+            @inputText(productForm("name"), '_label -> "Name")
+            @helper.input(productForm("image"), '_label -> "Image") { (id, name, value, args) =>
+                <input type="file" name="@name" id="@id" @toHtmlArgs(args)>
+            }
+            @inputText(productForm("description"), '_label -> "Description")
+            @inputText(productForm("price"), '_label -> "Price in USD")
+
+            @select(
+                productForm("category.id"),
+                options(Category.options),
+                '_label -> "Category", '_default -> "-- Choose a category --"
+            )
+        </fieldset>
+        
+        <div class="actions">
+            <input type="submit" value="Save" class="btn primary"> or
+            <a href="@controllers.admin.routes.Products.index()" class="btn">Cancel</a>
+        </div>
+        
+    }
+
+}

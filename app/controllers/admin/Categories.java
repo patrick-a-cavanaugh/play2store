@@ -46,4 +46,38 @@ public class Categories extends Controller {
             return redirect(routes.Categories.index());
         }
     }
+
+    public static Result edit(Long id) {
+        Category category = Category.find.byId(id);
+        if (category != null) {
+            Form<Category> categoryForm = form(Category.class).fill(
+                    category
+            );
+            return ok(editForm.render(categoryForm, category));
+        } else {
+            return notFound("Not found!");
+        }
+    }
+
+    public static Result update(Long id) {
+        Form<Category> categoryForm = form(Category.class).bindFromRequest(
+                "description",
+                "name"
+        );
+
+        if (categoryForm.hasErrors()) {
+            return badRequest(createForm.render(categoryForm));
+        } else {
+            Category category = categoryForm.get();
+            try {
+                category.update(id);
+            } catch (ValidationException e) {
+                for (InvalidValue v: e.getErrors()) {
+                    System.out.println(v);
+                }
+                throw e;
+            }
+            return redirect(routes.Categories.index());
+        }
+    }
 }
