@@ -93,9 +93,10 @@ public class Orders extends Controller {
             }
 
             // empty the cart, which has now been ordered.
-            theCart.lineItems = new LinkedList<CartLineItem>();
             order.save();
-            theCart.save();
+            for (CartLineItem cartItem : theCart.lineItems) {
+                cartItem.delete();
+            }
             return redirect(routes.Orders.show(order.id));
         } catch (StripeException e) {
             throw new IllegalStateException("Unexpected stripe exception", e);
