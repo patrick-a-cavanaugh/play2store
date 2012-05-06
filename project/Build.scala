@@ -11,7 +11,8 @@ object ApplicationBuild extends Build {
     val appDependencies = Seq(
       "org.imgscalr" % "imgscalr-lib" % "4.2",
       "postgresql" % "postgresql" % "9.1-901.jdbc4",
-      "be.objectify" % "deadbolt-2_2.9.1" % "1.1.2"
+      "be.objectify" % "deadbolt-2_2.9.1" % "1.1.2",
+      "com.stripe" % "stripe-java" % "1.0.14"
       //"be.objectify" %% "deadbolt-2" % "1.1.3-SNAPSHOT"
       //"deadbolt-2" %% "deadbolt-2" % "1.1.3-SNAPSHOT",
       //"crionics" %% "play2-authenticitytoken" % "1.0-SNAPSHOT"

@@ -5,15 +5,16 @@ import play.data.validation.Constraints;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
-public class CartLineItem extends Model {
+public class OrderLineItem extends Model {
 
     @Constraints.Required
     @ManyToOne
     @Column(nullable = false)
-    public Cart cart;
+    public Order order;
 
     @Constraints.Required
     @Column(nullable = false)
@@ -25,17 +26,21 @@ public class CartLineItem extends Model {
     @Column(nullable = false)
     public Long quantity;
 
-    /**
-     * Generic query helper for entity CartLineItem with id Long
-     */
-    public static Model.Finder<Long, CartLineItem> find = new Model.Finder<Long, CartLineItem>(Long.class, CartLineItem.class);
+    @Constraints.Required
+    @Column(nullable = false)
+    public BigDecimal price;
 
-    public static List<CartLineItem> all() {
+    /**
+     * Generic query helper for entity OrderLineItem with id Long
+     */
+    public static Model.Finder<Long, OrderLineItem> find = new Model.Finder<Long, OrderLineItem>(Long.class, OrderLineItem.class);
+
+    public static List<OrderLineItem> all() {
         return find.all();
     }
 
-    public static void create(CartLineItem c) {
-        c.save();
+    public static void create(OrderLineItem oli) {
+        oli.save();
     }
 
     public static void delete(Long id) {

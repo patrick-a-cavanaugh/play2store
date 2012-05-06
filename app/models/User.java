@@ -8,6 +8,7 @@ import security.Roles;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,6 +28,9 @@ public class User extends Model implements RoleHolder {
 
     @Column(nullable = false, columnDefinition = "boolean DEFAULT FALSE")
     public Boolean isAdmin;
+
+    @OneToMany
+    public List<Order> orders;
 
     public User() {
         isAdmin = Boolean.FALSE;

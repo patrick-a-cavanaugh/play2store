@@ -42,4 +42,16 @@
         </tbody>
     </table>
 
+    @if(!cart.lineItems.isEmpty()) {
+        @if(actions.TemplateVars.hasCurrentUser()) {
+            <p>
+                <a href="@routes.Orders.compose">Check out with this cart</a>
+            </p>
+        } else {
+            <p>
+                Want to check out? Please <a href="@routes.Application.login">login</a> or <a href="@routes.Application.register">register</a>. Your cart will be kept intact and then you may check out.
+            </p>
+        }
+    }
+
 }

@@ -1,0 +1,89 @@
+@(cart: Cart, orderForm: Form[Orders.NewOrder])
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@main("Play 2 Store: Place an order") {
+
+    <h1>Place an order</h1>
+
+    <p>Thanks for shopping with us! Please review the below table of items in your cart to make sure you are ordering the right thing.</p>
+
+    <p>We have not yet implemented functionality for saving your credit card to make repeating payments, so you will have to enter your full payment details to continue. We apologize for the inconvenience.</p>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Cost/ea.</th>
+            </tr>
+        </thead>
+        <tbody>
+        @for(lineItem <- cart.lineItems) {
+            <tr class="lineItem">
+                <td>@lineItem.product.name</td>
+                <td>@lineItem.quantity</td>
+                <td>$@lineItem.product.price.setScale(2) (USD)</td>
+
+            </tr>
+        }
+        <tr class="totals">
+            <td colspan="2" class="total-label">
+                <strong>Total:</strong>
+            </td>
+            <td class="total-price">
+                $@cart.getTotalPrice().setScale(2) (USD)
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    @form(routes.Orders.create(), 'id -> "orderForm") {
+        <fieldset>
+            <legend>Personal information</legend>
+            @inputText(orderForm("name"), '_label -> "Your Name")
+            @inputText(orderForm("addressLine1"), '_label -> "Address Line 1")
+            @inputText(orderForm("addressLine2"), '_label -> "Address Line 2")
+            @inputText(orderForm("addressCity"), '_label -> "City")
+            @inputText(orderForm("addressState"), '_label -> "State")
+            @inputText(orderForm("addressZipCode"), '_label -> "Zip Code")
+        </fieldset>
+
+        <fieldset>
+            <div class="clearfix" id="cardNumber">
+                <label for="cardNumberInput">Card Number</label>
+                <div class="input">
+                    <input type="text" id="cardNumberInput" autocomplete="off" />
+                    <span class="help-block">VISA and MasterCard are accepted</span>
+                </div>
+            </div>
+            <div class="clearfix" id="cvcNumber">
+                <label for="cardNumberInput">CVC</label>
+                <div class="input">
+                    <input type="text" id="cvcNumberInput" autocomplete="off" />
+                    <span class="help-block">The security code is located on the back of your card.</span>
+                </div>
+            </div>
+            <div class="clearfix form-inline" id="expirationDate">
+                <label>Expiration Date</label>
+                <div class="input">
+                    <input type="text" id="cardExpirationMonthInput" autocomplete="off"
+                     placeholder="MM" />
+                    <input type="text" id="cardExpirationYearInput" autocomplete="off"
+                                          placeholder="YYYY" />
+                </div>
+            </div>
+        </fieldset>
+
+        @* Will be set by JavaScript after stripe.js receives the payment. *@
+        <input type="hidden" id="stripePaymentToken" name="stripePaymentToken" />
+
+        <div class="actions">
+            <input type="submit" value="Submit Order" class="btn primary"> or
+            <a href="@routes.Carts.show()" class="btn">Cancel</a>
+        </div>
+
+    }
+
+}

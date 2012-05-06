@@ -18,6 +18,10 @@ GET     /cart                       controllers.Carts.show()
 POST    /cart-line-item/add         controllers.CartLineItems.create()
 POST    /cart-line-item/update      controllers.CartLineItems.update()
 
+# Ordering
+GET     /order/new                  controllers.Orders.compose()
+POST    /order/new                  controllers.Orders.create()
+GET     /order/$id<[0-9]+>          controllers.Orders.show(id: Long)
 
 # Images for products and categories
 GET     /images/$id<[0-9]+>/:name   controllers.Images.show(id: Long, name: String)

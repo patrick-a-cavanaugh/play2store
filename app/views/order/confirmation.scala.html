@@ -1,0 +1,40 @@
+@(order: Order)
+
+@main("Thanks for your order!") {
+
+    <h2>Order #@order.id</h2>
+    <h2>Thanks for your order!</h2>
+
+    <p>Thanks for shopping with us! Please review the below table of items in your cart to see what you ordered.</p>
+
+    <p>The status of your order is: @order.orderStatus</p>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Cost/ea.</th>
+            </tr>
+        </thead>
+        <tbody>
+        @for(lineItem <- order.lineItems) {
+            <tr class="lineItem">
+                <td>@lineItem.product.name</td>
+                <td>@lineItem.quantity</td>
+                <td>$@lineItem.price.setScale(2)/ea. (USD)</td>
+
+            </tr>
+        }
+        <tr class="totals">
+            <td colspan="2" class="total-label">
+                <strong>Total:</strong>
+            </td>
+            <td class="total-price">
+                $@order.getTotalPrice().setScale(2) (USD)
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+}
